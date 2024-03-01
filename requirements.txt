@@ -7,3 +7,4 @@ openpyxl
 django-multiselectfield
 pymysql
 django-storages
+boto3
