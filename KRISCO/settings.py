@@ -83,10 +83,19 @@ WSGI_APPLICATION = 'KRISCO.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'krisco_sales',
+        'USER': 'root',
+        'PASSWORD': 'manojroot',
+        'HOST': 'mysql-rds-bumpy-orange-czq3.c9okg8a0ahuw.us-west-2.rds.amazonaws.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
