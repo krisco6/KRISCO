@@ -1,0 +1,146 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block extrahead %}
+<!-- Custom styles and scripts can be included here -->
+<style>
+.horizontal-form-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+ }
+.fieldBox.field-horizontal {
+      display: flex;
+      align-items: center;
+      margin-right: 30px; /* Spacing between fields */
+}
+.fieldBox.field-horizontal:last-child {
+      margin-right: 0; /* Remove margin for the last field */
+}
+.label-field-container label {
+      margin-right: 10px;
+}
+.custom-button {
+      background-color: #84ADC5;
+      color: #ffffff !important; /* White text color for better contrast */
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 10px; /* Adjust the margin as needed */
+ }
+  
+  /* Hover effect for the button */
+  .custom-button:hover {
+      background-color: #4E758D;
+}
+  
+  .navbar {
+      background-color: #f8f9fa; /* Light grey background, change as needed */
+      padding: 10px 15px;
+      margin-bottom: 20px; /* Space below the navbar */
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,.1); /* subtle shadow for depth */
+  }
+  
+  .navbar .button-container {
+      display: flex;
+      gap: 10px; /* Space between buttons */
+  }
+  </style>
+  {% endblock %}
+
+{% block content %}
+<div class="app-offers model-brandoffer change-form">
+    <h1>{% trans 'Special Offer Discounts' %}</h1>
+    <!-- Navbar with buttons -->
+<div class="navbar">
+    <div class="button-container">
+      <!-- Calculate Discounts button -->
+      <!-- Edit Offer button -->
+      <a href="{% url 'admin:admin_offer_edit' %}" class="custom-button">Edit Offer</a>
+      <a href="{% url 'admin:email_customers' %}" class="custom-button">Email Offer</a>
+      <a href="{% url 'admin:save_offer' %}" class="custom-button">Save Offer</a>
+
+    </div>
+  </div>
+  <div class="app-offers model-brandoffer change-form">
+  
+    <form method="post" id="salon_discount_form" class="form-horizontal">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+        
+        <div class="form-row horizontal-form-row">
+            {% for field in form %}
+            <div class="fieldBox field-horizontal field-{{ field.name }">
+                {{ field.errors }}
+                {{ field.label_tag }} 
+                {{ field }}
+            </div>
+            {% endfor %}
+        </div>
+     <div class="submit-row ">
+      <input type="submit" value="{% trans 'Calculate Discounts' %}" class="default" name="_save" />
+    </div>
+    <br>
+
+  {% if data_with_discounts %}
+  <h2>Discount Data Entered:</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Brand</th>
+        <th>Discount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in data_with_discounts %}
+      <tr>
+        <td>{{ entry.brand }}</td>
+        <td>{{ entry.discount }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+  
+  {% if not df_empty %}
+  <h2>Updated Offered Prices:</h2>
+  <table class="table" id="discountedPricesTable">
+    <thead>
+      <tr>
+        <th>SKU</th>
+        <th>Brand</th>
+        <th>Upc</th>
+        <th>Description</th>
+        <th>Available</th>
+        <th>Display Qty</th>
+        <th>Cost</th>
+        <th>Discount</th>
+        <th>Offer Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in df %}
+      <tr data-id="{{ row.id }}">
+        <td>{{ row.sku }}</td>
+        <td>{{ row.brand }}</td>
+        <td>{{ row.upc }}</td>
+        <td>{{ row.description }}</td>
+        <td>{{ row.available }}</td>
+        <td>{{ row.display_qty }}</td>
+        <td>{{ row.cost }}</td>
+        <td>{{ row.discount }}</td>
+        <td>{{ row.offer_price }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% endblock %}

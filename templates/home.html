@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+<header>
+  {% block menubar %}{% endblock %}
+</header>
+{% block content %}
+<style>
+.scroll-container {
+  width: 100%;
+  overflow: hidden;
+  background: #f0f0f0; /* A light, soothing grey background */
+  box-shadow: 0px 0px 10px #888888; /* Soft shadow for depth */
+  border-radius: 5px; /* Rounded corners for a modern look */
+  position: relative;
+}
+
+.scroll-text {
+  white-space: nowrap;
+  display: block;
+  position: relative;
+  animation: scroll 50s linear infinite; /* Slower speed for comfort */
+  font-family:sans-serif; /* Clear, professional font */
+  font-size: 20px; /* Adequate size for readability */
+  color: #333; /* Contrast color for legibility */
+  padding: 10px 0; /* Vertical padding for centering */
+}
+
+@keyframes scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.scroll-text:hover {
+  animation-play-state: paused; /* Pause animation on hover */
+}
+</style>
+<body>
+<!-- Your home page content goes here -->
+            <main>
+              <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                  {% for slide in slides %}
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+                  {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                  {% for slide in slides %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                      <img src="{{ slide.slide_img.url }}" class="d-block w-100" alt="{{ slide.slide_label }}" style="height: 75vh; object-fit: cover;">
+                      <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ slide.slide_label }}</h5>
+                        <p>{{ slide.slide_testmonial }}</p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </main>            
+        <footer>
+          <div class="scroll-container">
+            {% for add in adds %}
+            <div class="scroll-text"><i class="{{add.fontawsome_icon}}"></i>&nbsp;{{add.add_info_text}}</div>
+            {% endfor %}
+          </div>
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"></script>
+    </body>
+{% endblock %}
