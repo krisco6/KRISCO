@@ -3,6 +3,6 @@ django-crispy-forms==1.11.2
 django-daterange-filterspec
 pillow
 pandas
-mysql-client
+mysqlclient
 openpyxl
 django-multiselectfield
